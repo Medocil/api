@@ -2,14 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Client;
-use App\Models\Adresse;
-use App\Models\Livreur;
-use App\Models\Pharmacie;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -21,13 +17,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nom',
-        'prenom',
-        'email', 
-        'tel', 
-        'date_birth', 
-        'status',
-        'password'
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -48,27 +40,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    protected $table = 'user'; 
-    protected $primaryKey = 'id_user'; 
-
-    public function adresse()
-    {
-        return $this->hasOne(Adresse::class, 'id_user');
-    }
-
-    public function client()
-    {
-        return $this->hasOne(Client::class, 'id_user');
-    }
-
-    public function pharmacie()
-    {
-        return $this->hasOne(Pharmacie::class, 'id_user');
-    }
-
-    public function livreur()
-    {
-        return $this->hasOne(Livreur::class, 'id_user');
-    }
 }
