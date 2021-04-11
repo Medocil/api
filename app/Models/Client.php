@@ -11,20 +11,20 @@ class Client extends Model
 
     public $timestamps = true;
     protected $fillable = [
+        'user_id',
         'social_security_number',
-    
     ];
-    
+
     public function order()
     {
-        return $this->hasMany(Order::class); 
+        return $this->hasMany(Order::class);
     }
-    
+
     public function prescription()
     {
         return $this->hasMany(Prescription::class);
     }
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);

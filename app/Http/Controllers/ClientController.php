@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,6 @@ class ClientController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -37,21 +37,22 @@ class ClientController extends Controller
     //REGISTER
     public function store(Request $request)
     {
+        if (!auth()->user()) {
+            throw new Exception("Not logged in");
+        }
+
+        $userId = auth()->user()->id;
+
         $fields = $request->validate([
-            'social_security_number' => 'required|string'
+            'social_security_number' => 'required|string|digits:15'
         ]);
 
         $client = Client::create([
-            // 'user_id' => Auth::
+            'user_id' => $userId,
             'social_security_number' => $fields['social_security_number']
         ]);
 
-        $response = [
-            'client' => $client
-        ]; 
-
-        return response($response, 201); 
-
+        return response($client, 201);
     }
 
     /**

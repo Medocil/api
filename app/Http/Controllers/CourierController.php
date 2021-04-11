@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Courier;
+use Exception;
 use Illuminate\Http\Request;
 
 class CourierController extends Controller
@@ -35,7 +36,25 @@ class CourierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!auth()->user()) {
+            throw new Exception("Not logged in");
+        }
+
+        $userId = auth()->user()->id;
+
+        $fields = $request->validate([
+            'identity_number' => 'required|string|min:12|max:12',
+            'kbis_file' => 'required|string',
+            'criminal_record' => 'required|string'
+        ]);
+        $courier = Courier::create([
+            'user_id' => $userId,
+            'identity_number' => $fields['identity_number'],
+            'kbis_file' => $fields['kbis_file'],
+            'criminal_record' => $fields['criminal_record'],
+        ]);
+
+        return response($courier, 201);
     }
 
     /**
