@@ -16,7 +16,8 @@ class UserController extends Controller
             'date_of_birth' => 'required|string',
             'phone_number' => 'required|string|digits:10',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed',
+            'status' => 'required|string'
         ]);
 
         $user = User::create([
@@ -25,7 +26,8 @@ class UserController extends Controller
             'date_of_birth' => $fields['date_of_birth'],
             'phone_number' => $fields['phone_number'],
             'email' => $fields['email'], 
-            'password' => bcrypt($fields['password'])
+            'password' => bcrypt($fields['password']),
+            'status' => $fields['status']
         ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken; 
@@ -59,11 +61,11 @@ class UserController extends Controller
         return response($response, 201); 
     }
 
-    // public function logout(Request $request) {
-    //     auth()->user()->tokens()->delete(); 
+    public function logout(Request $request) {
+        auth()->user()->tokens()->delete(); 
 
-    //     return [
-    //         'message' => 'Logged out'
-    //     ]; 
-    // }
+        return [
+            'message' => 'Logged out'
+        ]; 
+    }
 }

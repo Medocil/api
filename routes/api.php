@@ -22,10 +22,9 @@ use App\Http\Controllers\UserController;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('register', [UserController::class, 'register']); 
     Route::post('login', [UserController::class, 'login']); 
-    // Route::post('logout', [UserController::class, 'logout']); 
+    Route::post('logout', [UserController::class, 'logout']); 
 
 });
 
 Route::post('register', [UserController::class, 'register']); 
 Route::post('login', [UserController::class, 'login']); 
-// Route::post('logout', [UserController::class, 'logout']); 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -24,7 +25,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -33,9 +34,24 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    //REGISTER
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'social_security_number' => 'required|string'
+        ]);
+
+        $client = Client::create([
+            // 'user_id' => Auth::
+            'social_security_number' => $fields['social_security_number']
+        ]);
+
+        $response = [
+            'client' => $client
+        ]; 
+
+        return response($response, 201); 
+
     }
 
     /**
