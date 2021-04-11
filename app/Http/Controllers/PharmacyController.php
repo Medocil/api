@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pharmacy;
+use Exception;
 use Illuminate\Http\Request;
 
 class PharmacyController extends Controller
@@ -35,7 +36,26 @@ class PharmacyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!auth()->user()) {
+            throw new Exception("Not logged in");
+        }
+
+        $userId = auth()->user()->id;
+
+        $fields = $request->validate([
+            'name' => 'required|string',
+            'siret_number' => 'required|string|digits:14'
+
+        ]);
+
+        $pharmacy = Pharmacy::create([
+            'user_id' => $userId,
+            'name' => $fields['name'],
+            'siret_number' => $fields['siret_number'],
+
+        ]);
+
+        return response($pharmacy, 201);
     }
 
     /**

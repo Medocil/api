@@ -10,6 +10,7 @@ class Pharmacy extends Model
     use HasFactory;
     public $timestamps = true;
     protected $fillable = [
+        'user_id',
         'name',
         'siret_number'
     ];

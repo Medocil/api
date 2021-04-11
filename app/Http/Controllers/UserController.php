@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         $fields = $request->validate([
             'lastname' => 'required|string',
             'firstname' => 'required|string',
@@ -25,47 +26,48 @@ class UserController extends Controller
             'firstname' => $fields['firstname'],
             'date_of_birth' => $fields['date_of_birth'],
             'phone_number' => $fields['phone_number'],
-            'email' => $fields['email'], 
+            'email' => $fields['email'],
             'password' => bcrypt($fields['password']),
             'status' => $fields['status']
         ]);
 
-        $token = $user->createToken('myapptoken')->plainTextToken; 
+        $token = $user->createToken('myapptoken')->plainTextToken;
 
         $response = [
-            'user' => $user, 
-            'token' => $token
-        ]; 
-
-        return response($response, 201); 
-    }
-
-    function login(Request $request) {
-        $user = User::where('email', $request->email)->first(); 
-
-        if (!$user || !Hash::check($request->password, $user->password))
-        {
-            return response([
-                'message' => ['These credentials do not match our records.']
-            ], 404); 
-        }
-
-        $token = $user->createToken('my-app-token')->plainTextToken; 
-        //plainTextToken affiche le token en bdd 
-
-        $response = [
-            'user' => $user, 
+            'user' => $user,
             'token' => $token
         ];
 
-        return response($response, 201); 
+        return response($response, 201);
     }
 
-    public function logout(Request $request) {
-        auth()->user()->tokens()->delete(); 
+    function login(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response([
+                'message' => ['These credentials do not match our records.']
+            ], 404);
+        }
+
+        $token = $user->createToken('my-app-token')->plainTextToken;
+        //plainTextToken affiche le token en bdd 
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete();
 
         return [
             'message' => 'Logged out'
-        ]; 
+        ];
     }
 }
