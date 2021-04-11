@@ -52,4 +52,21 @@ class User extends Authenticatable
         return $this->hasOne(Address::class);
     }
 
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
+    
+    public function pharmacy()
+    {
+        return $this->hasOne(Pharmacy::class);
+    }
+    
+    public function Courier()
+    {
+        return $this->hasOne(Courier::class);
+    }
+    
+
+    
 }

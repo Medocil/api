@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Courier extends Model
 {
     use HasFactory;
+    public $timestamps = true;
+    protected $fillable = [
+        'identity_number',
+        'kbis_file',
+        'criminal_record'
+    ];
+    
+    public function delivery()
+    {
+        return $this->hasMany(Delivery::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
