@@ -28,9 +28,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('courier', [CourierController::class, 'store']);
     
     Route::resource('users', AdministratorController::class);
-    Route::post('create', [UserController::class, 'store']);
-    Route::post('update/{id}', [UserController::class, 'update']);
-    Route::delete('delete/{id}', [UserController::class, 'destroy']);
+    // Route::post('create', [UserController::class, 'store']);
+    // Route::post('update/{id}', [UserController::class, 'update']);
+    // Route::delete('delete/{id}', [UserController::class, 'destroy']);
 });
 
 Route::post('register', [AuthController::class, 'register']);

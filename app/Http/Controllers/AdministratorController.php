@@ -9,11 +9,7 @@ use Illuminate\Http\Request;
 
 class AdministratorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $connectedUser = User::findOrFail(auth()->id());
@@ -22,26 +18,14 @@ class AdministratorController extends Controller
             throw new Exception("Not an admin");
         }
         $users = User::where('id', '!=', auth()->id())->get();
-        
+
         return response()->json($users);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $connectedUser = User::findOrFail(auth()->id());
@@ -53,12 +37,14 @@ class AdministratorController extends Controller
         $fields = $request->validate([
             'lastname' => 'required|string',
             'firstname' => 'required|string',
-            'date_of_birth' => 'required|string',
-            'phone_number' => 'required|string|digits:10',
+            'date_of_birth' => 'required|date_format:"Y-m-d"',
+            'phone_number' => ['required', 'numeric', 'regex:/^(\+?33|0)[67]\d{8}$/'],
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed',
             'status' => 'required|string'
-        ]); 
+        ], [
+            'phone_number.regex' => 'Format incorrect. Exemple : 0612345678',
+        ]);
 
         $user = User::create([
             'lastname' => $fields['lastname'],
@@ -71,38 +57,17 @@ class AdministratorController extends Controller
         ]);
 
         return response()->json($user);
-    
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return \Illuminate\Http\Response
-     */
     public function show(Administrator $administrator)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Administrator $administrator)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Administrator  $administrator
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $connectedUser = User::findOrFail(auth()->id());
@@ -110,7 +75,6 @@ class AdministratorController extends Controller
         if ($connectedUser->is_admin != 1) {
             throw new Exception("Not an admin");
         }
-
 
         $fields = $request->validate([
 
@@ -122,24 +86,17 @@ class AdministratorController extends Controller
             'password' => 'string|confirmed',
             'status' => 'string',
             'is_admin' => 'nullable|integer'
-        ]); 
-        
-        
-        $user = User::where('id', $id)
-            ->update($fields)
-        ; 
+        ]);
 
-        $user = User::where('id', $id)->get(); 
-        
+
+        $user = User::where('id', $id)
+            ->update($fields);
+
+        $user = User::where('id', $id)->get();
+
         return response()->json($user);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $connectedUser = User::findOrFail(auth()->id());
@@ -149,8 +106,7 @@ class AdministratorController extends Controller
         }
 
         $user = User::where('id', $id)
-            ->delete()
-        ; 
+            ->delete();
 
         return response()->json($user);
     }

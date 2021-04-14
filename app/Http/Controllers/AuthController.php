@@ -13,11 +13,13 @@ class AuthController extends Controller
         $fields = $request->validate([
             'lastname' => 'required|string',
             'firstname' => 'required|string',
-            'date_of_birth' => 'required|string',
+            'date_of_birth' => 'required|date_format:"Y-m-d"',
             'phone_number' => 'required|string|digits:10',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed',
             'status' => 'required|string'
+        ], [
+            'phone_number.regex' => 'Format incorrect. Exemple : 0612345678',
         ]);
 
         $user = User::create([

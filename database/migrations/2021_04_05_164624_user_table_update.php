@@ -23,7 +23,7 @@ class UserTableUpdate extends Migration
 
             $table->after('email_verified_at', function ($table) {
                 $table->string('phone_number');
-                $table->string('date_of_birth');
+                $table->date('date_of_birth');
                 $table->string('status')->nullable();
                 $table->integer('is_admin')->nullable();
             });
