@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Address;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,26 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!auth()->user()) {
+            throw new Exception("Not logged in");
+        }
+
+        $userId = auth()->user()->id;
+
+        $fields = $request->validate([
+            'address' => 'required|string',
+            'cpostal' => 'required|integer|digits:5'
+
+        ]);
+
+        $address = Address::create([
+            'user_id' => $userId,
+            'address' => $fields['address'],
+            'cpostal' => $fields['cpostal'],
+
+        ]);
+
+        return response($address, 201);
     }
 
     /**

@@ -11,6 +11,7 @@ class Address extends Model
 
     public $timestamps = true;
     protected $fillable = [
+        'user_id',
         'address',
         'cpostal'
     ];

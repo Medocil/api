@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdministratorController;
-use App\Http\Controllers\AuthController;
+use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CourierController;
 use App\Http\Controllers\PharmacyController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdministratorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('courier', [CourierController::class, 'store']);
     
     Route::resource('users', AdministratorController::class);
+    Route::resource('pharmacies', PharmacyController::class); 
+    Route::resource('addresses', AddressController::class); 
     // Route::post('create', [UserController::class, 'store']);
     // Route::post('update/{id}', [UserController::class, 'update']);
     // Route::delete('delete/{id}', [UserController::class, 'destroy']);

@@ -15,7 +15,8 @@ class PharmacyController extends Controller
      */
     public function index()
     {
-        //
+        $pharmacy = Pharmacy::all();
+        return response()->json($pharmacy);
     }
 
     /**
