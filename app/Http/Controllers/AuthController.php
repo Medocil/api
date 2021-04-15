@@ -13,8 +13,8 @@ class AuthController extends Controller
         $fields = $request->validate([
             'lastname' => 'required|string',
             'firstname' => 'required|string',
-            'date_of_birth' => 'required|date_format:"Y-m-d"',
-            'phone_number' => 'required|string|digits:10',
+            'date_of_birth' => 'required|date_format:"d-m-Y"',
+            'phone_number' => ['required', 'numeric', 'regex:/^(\+?33|0)[67]\d{8}$/'],
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed',
             'status' => 'required|string'
