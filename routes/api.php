@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdministratorController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
@@ -19,14 +21,18 @@ use App\Http\Controllers\UserController;
 */
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('register', [UserController::class, 'register']);
-    Route::post('login', [UserController::class, 'login']);
-    Route::post('logout', [UserController::class, 'logout']);
+    Route::post('logout', [AuthController::class, 'logout']);
 
     Route::post('client', [ClientController::class, 'store']);
     Route::post('pharmacy', [PharmacyController::class, 'store']);
     Route::post('courier', [CourierController::class, 'store']);
+    
+    Route::resource('users', AdministratorController::class);
+    // Route::post('create', [UserController::class, 'store']);
+    // Route::post('update/{id}', [UserController::class, 'update']);
+    // Route::delete('delete/{id}', [UserController::class, 'destroy']);
 });
 
-Route::post('register', [UserController::class, 'register']);
-Route::post('login', [UserController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
