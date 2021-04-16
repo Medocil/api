@@ -44,7 +44,9 @@ class AddressController extends Controller
 
         $fields = $request->validate([
             'address' => 'required|string',
-            'cpostal' => 'required|integer|digits:5'
+            'cpostal' => 'required|integer|digits:5',
+            'latitude' => ['nullable', 'regex:/^(\+|-)?(?:90(?:(?:.0{1,14})?)|(?:[0-9]|[1-8][0-9])(?:(?:.[0-9]{1,14})?))$/'],
+            'longitude' => ['nullable', 'regex:/\A[+-]?(?:180(?:\.0{1,18})?|(?:1[0-7]\d|\d{1,2})\.\d{1,18})\z/x'],
 
         ]);
 
@@ -52,6 +54,8 @@ class AddressController extends Controller
             'user_id' => $userId,
             'address' => $fields['address'],
             'cpostal' => $fields['cpostal'],
+            'latitude' => $fields['latitude'],
+            'longitude' => $fields['longitude'],
 
         ]);
 
