@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdministratorController;
-use App\Http\Controllers\AuthController;
+use App\Models\Drugs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DrugsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CourierController;
 use App\Http\Controllers\PharmacyController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdministratorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +37,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('drugs', [DrugsController::class, 'index']);
 
